@@ -6,7 +6,7 @@
 - Valeria Quinde [valeestefa15@gmail.com](https://plus.google.com/117826964296158384526/op/profilephoto)
 
 #NUMBERS DETECTION
-===================
+--------------------------
 This work is done in order to put practical knowledge of machine vision using OpenCV and Pyhton, it can be edited and modified by anyone interested in improving it.
 It was designed with the purpose of recognizing numbers light meters (eg meter in folder 'images')
 
@@ -52,11 +52,13 @@ From a command line in the folder of the repository:
 You can detect with detect_numbers_image.py It serves to detect the number of meters of an image
 
 `$ python detect_numbers_image.py  `
+
 You will then be asked which is the name of the image to be processed, place the name based on images found in the images folder. Example: img1
 
 It serves to detect the number of meters of web cam
 
-`$ python detect_numbers_video.py 
+`$ python detect_numbers_video.py `
+
 As in the previous program you must enter the name of the video processing of the case, otherwise you should write camera to use the webcam.
 
 A box where you will take the first picture (press' c 'to take photo) and analyze.
