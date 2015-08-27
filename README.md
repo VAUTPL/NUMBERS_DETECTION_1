@@ -61,4 +61,4 @@ It serves to detect the number of meters of web cam
 
 As in the previous program you must enter the name of the video processing of the case, otherwise you should write camera to use the webcam.
 
-A box where you will take the first picture (press' c 'to take photo) and analyze.
+A box where you will take the first picture (press 'c' to take photo) and analyze.
