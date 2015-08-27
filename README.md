@@ -27,9 +27,9 @@ Installation
 	◦	Python 2.7.9 (or any later Python 2.x) (See Installation on OS X if using a Mac)
 	◦	Numpy 1.9.2+
 	◦	Scipy 0.15.1+
-  ◦	Mahotas 1.3.0
-  ◦	Scikit_image 0.11.3
-  ◦	Scikit_learn 0.16.1
+        ◦	Mahotas 1.3.0
+        ◦	Scikit_image 0.11.3
+	◦	Scikit_learn 0.16.1
 	2.	Now download and extract this repository with one of several options:
 	◦	Clone the repository with $ git clone https://github.com/VAUTPL/Deteccion.git
 	◦	Download the repository as a .zip or .tar.gz and then extract it.
