@@ -55,7 +55,7 @@ You can detect with detect_numbers_image.py It serves to detect the number of me
 
 Next, You must write the name of picture, for example "img9"
 
-Example: INGRESE EL NOMBRE DE LA IMAGEN:img9
+Example: WRITE THE NAME OF THE PICTURE:img9
 
 Now, We use the webcam device.
 
