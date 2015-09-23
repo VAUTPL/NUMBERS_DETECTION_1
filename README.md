@@ -61,9 +61,9 @@ Now, We use the webcam device.
 
 `$ python detection_numbers_video.py `
 
-Previous program you must put the name of the video for the test, otherwise you should write camara to use the webcam or video2 for load the video.
+Previous program you must put the name of the video for the test, then you should write "camara" to use the webcam device or "video2" for load the video.
 
 Example: PUT THE NAME 'video2'OR WRITE 'camara' FOR USE THE WEBCAM DEVICE:video2.
 
-A box where you will take the first picture (press 'c' to take photo) and analyze.
+In the box red is the place where it take the picture, then press 'c' key.
 
