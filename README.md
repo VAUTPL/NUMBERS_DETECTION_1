@@ -51,15 +51,19 @@ Running
 From a command line in the folder of the repository:
 You can detect with detect_numbers_image.py It serves to detect the number of meters of an image
 
-`$ python detect_numbers_image.py  `
+`$ python detection_numbers_image.py  `
 
-You will then be asked which is the name of the image to be processed, place the name based on images found in the images folder. Example: INGRESE EL NOMBRE DE LA IMAGEN:img1
+Next, You must write the name of picture, for example "img9"
 
-It serves to detect the number of meters of web cam
+Example: INGRESE EL NOMBRE DE LA IMAGEN:img9
 
-`$ python detect_numbers_video.py `
+Now, We use the webcam device.
 
-As in the previous program you must enter the name of the video processing of the case, otherwise you should write camara to use the webcam or video2 for use the video load.
+`$ python detection_numbers_video.py `
+
+Previous program you must put the name of the video for the test, otherwise you should write camara to use the webcam or video2 for load the video.
+
 Example: INGRESE EL NOMBRE DEL VIDEO O CAMARA PARA TOMAR FOTO: video2 or INGRESE EL NOMBRE DEL VIDEO O CAMARA PARA TOMAR FOTO: camara.
+
 A box where you will take the first picture (press 'c' to take photo) and analyze.
-Suggestion: When taking the photo, preferably position the region of interest as a possible left, in order to avoid delays.
+
