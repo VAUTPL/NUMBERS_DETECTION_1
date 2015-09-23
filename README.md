@@ -67,3 +67,12 @@ Example: PUT THE NAME 'video2'OR WRITE 'camara' FOR USE THE WEBCAM DEVICE:video2
 
 In the box red is the place where it take the picture, then press 'c' key.
 
+If you add new pictures in the images folder, you have to do the following step:
+
+Open the file "generating_samples.py", change the line 
+
+`$ for cont in range(1,23,1):#change the new picture in the folder images
+
+`$ python generating_samples.py
+
+
