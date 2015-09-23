@@ -63,7 +63,7 @@ Now, We use the webcam device.
 
 Previous program you must put the name of the video for the test, otherwise you should write camara to use the webcam or video2 for load the video.
 
-Example: INGRESE EL NOMBRE DEL VIDEO O CAMARA PARA TOMAR FOTO: video2 or INGRESE EL NOMBRE DEL VIDEO O CAMARA PARA TOMAR FOTO: camara.
+Example: PUT THE NAME 'video2'OR WRITE 'camara' FOR USE THE WEBCAM DEVICE:video2.
 
 A box where you will take the first picture (press 'c' to take photo) and analyze.
 
