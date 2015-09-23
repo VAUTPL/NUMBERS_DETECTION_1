@@ -9,7 +9,6 @@
 import support_library
 import cv2
 import numpy as np
-import MySQLdb
 import mahotas
 import time
 #TRAINING---------------------------------------------------------------------------------------------------------------
@@ -24,9 +23,9 @@ xf=1
 xfx=xf
 contador=1
 #LOAING IMAGE-----------------------------------------------------------------------------------------------------------
-nombre=(raw_input("INGRESE EL NOMBRE DE LA IMAGEN:"))
+nombre=(raw_input("WRITE THE NAME OF THE PICTURE:"))
 image = cv2.imread('images/'+str(nombre)+'.jpg')
-print "ESPERE UN MOMENTO POR FAVOR.......... PROCESANDO"
+print "WAIT A MOMENT PLEASE..... PROCESSING"
 image = cv2.resize(image, (800, 500))
 gris = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 mascar=np.zeros(image.shape[:2], dtype="uint8")

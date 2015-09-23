@@ -20,12 +20,12 @@ digito=0
 model = cv2.KNearest()
 model.train(samples, responses)
 rois=220
-xf=90
+xf=1
 xfx=xf
 contador=1
 #-----------------------------------------------------------------------------------------------------------------------
-print "PRESIONA c PARA CORTAR LA REGION DE INTERES"
-nombre=(raw_input("INGRESE EL NOMBRE DEL VIDEO O CAMARA PARA TOMAR FOTO:"))
+print "PRESS 'c' FOR TAKE THE PICTURE"
+nombre=(raw_input("PUT THE NAME 'video2'OR WRITE 'camara' FOR USE THE WEBCAM DEVICE:"))
 if nombre=='camara':
     camara=cv2.VideoCapture(0)
 else:
@@ -33,19 +33,19 @@ else:
 while True:
     (grabacion, img) = camara.read()
     imagen = cv2.resize(img, (800, 500))
-    cv2.rectangle(imagen, (xf, rois), (xf+700, rois+70), (0, 25, 255), 1)
-    cv2.putText(imagen, "REGION DE INTERES", (xf, rois-10), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 2)
+    cv2.rectangle(imagen, (xf, rois), (xf+500, rois+70), (0, 25, 255), 1)
+    cv2.putText(imagen, "REGION OF INTEREST", (xf, rois-10), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 2)
     cv2.imshow("CAMARA",imagen)
     tecla=cv2.waitKey(1)
     if tecla==ord('c'):
         image=img
         break
 #CONVERTING THE IMAGE TO GRAYSCALE--------------------------------------------------------------------------------------
-print "ESPERE UN MOMENTO POR FAVOR.......... PROCESANDO"
+print "WAIT A MOMENT PLEASE..... PROCESSING"
 image = cv2.resize(image, (800, 500))
 gris = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 mascar=np.zeros(image.shape[:2], dtype="uint8")
-cv2.rectangle(mascar, (xf, rois), (xf+800, rois+90), 255, -1)
+cv2.rectangle(mascar, (xf, rois), (xf+500, rois+90), 255, -1)
 image2=cv2.bitwise_and(gris,gris,mask=mascar)
 T3=mahotas.thresholding.otsu(image2)
 gris_copy=gris.copy()
@@ -64,7 +64,7 @@ T2 = mahotas.thresholding.otsu(grises)
 T=(T2+T1+5)/2
 #THRESHOLD--------------------------------------------------------------------------------------------------------------
 for k in range(rois,rois+90,1):
-    for z in range(xf,800,1):
+    for z in range(xf,500,1):
         color=grises[k,z]
         if color>T:
             grises[k,z]=0
@@ -73,7 +73,7 @@ for k in range(rois,rois+90,1):
 cv2.imshow("gris",grises)
 #MASCARA FOR ROI--------------------------------------------------------------------------------------------------------
 mascara=np.zeros(image.shape[:2], dtype="uint8")
-cv2.rectangle(mascara, (xf, rois), (xf+800, rois+90), 255, -1)
+cv2.rectangle(mascara, (xf, rois), (xf+500, rois+90), 255, -1)
 image1=cv2.bitwise_and(grises,grises,mask=mascara)
 cv2.imshow("MEDIDOR ELECTRICO",image)
 cv2.waitKey(0)
