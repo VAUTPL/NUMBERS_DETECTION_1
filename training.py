@@ -12,7 +12,7 @@ import mahotas
 # OPEN TRAINING IMAGE FOR PROCESSING------------------------------------------------------------------------------------
 samples =  np.empty((0, 100))
 responses = []
-for j in range(1,106,1):
+for j in range(1,106,1):#change the new picture in the folder images
     print j
     image = cv2.imread('samples/'+str(j)+'.png',0)
     image=cv2.resize(image,(50,50))

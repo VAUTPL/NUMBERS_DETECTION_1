@@ -15,7 +15,7 @@ contador=1
 rois=100
 cont=1
 #LOAING IMAGE-----------------------------------------------------------------------------------------------------------
-for cont in range(1,23,1):
+for cont in range(1,23,1):#change the new picture in the folder images
     xf=1
     xfx=xf
     image = cv2.imread('images/'+'img'+str(cont)+'.jpg')
