@@ -73,6 +73,27 @@ Open the file "generating_samples.py", change the line
 
 `$ for cont in range(1,23,1):#change the new picture in the folder images `
 
+if you add "2"  new pictures in the images folder, you change the number "23" for "25".
+
+Next, Open the file "training.py", change the line 
+
+`$for j in range(1,106,1):#change the new picture in the folder images`
+
+In this examples, we add 2 new picture, for each one picture to create 5 images in samples folder, then 2 x 5 = 10 new images, this value should be update in the line code.
+
+for example: 
+
+`$for j in range(1,116,1):#change the new picture in the folder images`
+
+In this line you change the number "106" for "116" for update the database of training.
+
+Now, execute this file: "generating_samples.py"
+
 `$ python generating_samples.py`
+
+It is neccesary to execute the training file:
+
+`$ python training.py`
+
 
 
