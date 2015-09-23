@@ -71,8 +71,8 @@ If you add new pictures in the images folder, you have to do the following step:
 
 Open the file "generating_samples.py", change the line 
 
-`$ for cont in range(1,23,1):#change the new picture in the folder images
+`$ for cont in range(1,23,1):#change the new picture in the folder images `
 
-`$ python generating_samples.py
+`$ python generating_samples.py`
 
 
