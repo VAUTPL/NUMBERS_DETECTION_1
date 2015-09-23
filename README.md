@@ -65,7 +65,10 @@ Previous program you must put the name of the video for the test, then you shoul
 
 Example: PUT THE NAME 'video2'OR WRITE 'camara' FOR USE THE WEBCAM DEVICE:video2.
 
-In the box red is the place where it take the picture, then press 'c' key.
+In the box red is the place where it take the picture, then press 'c' key. 
+
+ADD NEW IMAGES
+-------
 
 If you add new pictures in the images folder, you have to do the following step:
 
