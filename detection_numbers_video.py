@@ -9,16 +9,9 @@
 #IMPORT LIBRARIES-------------------------------------------------------------------------------------------------------
 import cv2
 import numpy as np
-import MySQLdb
 import mahotas
 import time
 import support_library
-#ADRESS DATABASE--------------------------------------------------------------------------------------------------------
-DB_HOST = '199.168.189.114'
-DB_PORT = '3306'
-DB_USER = 'mancomun_opencv'
-DB_PASS = 'QGPhx}SzV~y6'
-DB_NAME = 'mancomun_opencv'
 #TRAINING---------------------------------------------------------------------------------------------------------------
 samples = np.loadtxt('data/general_samples.data', np.float32)
 responses = np.loadtxt('data/general_responses.data', np.float32)
@@ -48,33 +41,53 @@ while True:
         image=img
         break
 #CONVERTING THE IMAGE TO GRAYSCALE--------------------------------------------------------------------------------------
+print "ESPERE UN MOMENTO POR FAVOR.......... PROCESANDO"
 image = cv2.resize(image, (800, 500))
 gris = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-cv2.imshow("Imagen original", image)
-cv2.waitKey(0)
-gray = gris.copy()
-#CONTRAST LEVELING------------------------------------------------------------------------------------------------------
-clahe = cv2 . createCLAHE(clipLimit=2.0)
-gray = clahe . apply(gray)
-gray1=gray.copy()
-umbral=mahotas.thresholding.otsu(gris)
-gray1[gray1 > umbral] = 255
-gray1[gray1 < umbral] = 0
-#REGION OF INTEREST-----------------------------------------------------------------------------------------------------
+mascar=np.zeros(image.shape[:2], dtype="uint8")
+cv2.rectangle(mascar, (xf, rois), (xf+800, rois+90), 255, -1)
+image2=cv2.bitwise_and(gris,gris,mask=mascar)
+T3=mahotas.thresholding.otsu(image2)
+gris_copy=gris.copy()
+gris_2=gris.copy()
+#NEGATIVE IMAGE---------------------------------------------------------------------------------------------------------
+for j in range(1,800,1):
+    for i in range(1,500,1):
+        color=gris[i,j]
+        gris[i,j]=255-color
+gris=cv2.GaussianBlur(gris, (3, 3),0)
+T1=mahotas.thresholding.otsu(gris)
+clahe = cv2. createCLAHE(clipLimit=1.0)
+grises= clahe . apply(gris)
+conteo=1
+T2 = mahotas.thresholding.otsu(grises)
+T=(T2+T1+5)/2
+#THRESHOLD--------------------------------------------------------------------------------------------------------------
+for k in range(rois,rois+90,1):
+    for z in range(xf,800,1):
+        color=grises[k,z]
+        if color>T:
+            grises[k,z]=0
+        else:
+            grises[k,z]=255
+cv2.imshow("gris",grises)
+#MASCARA FOR ROI--------------------------------------------------------------------------------------------------------
 mascara=np.zeros(image.shape[:2], dtype="uint8")
-cv2.rectangle(mascara, (xf, rois), (xf+800, rois+70), 255, -1)
-image1=cv2.bitwise_and(gray1,gray1,mask=mascara)
+cv2.rectangle(mascara, (xf, rois), (xf+800, rois+90), 255, -1)
+image1=cv2.bitwise_and(grises,grises,mask=mascara)
+cv2.imshow("MEDIDOR ELECTRICO",image)
+cv2.waitKey(0)
 #FILTER-----------------------------------------------------------------------------------------------------------------
-blurred = cv2.GaussianBlur(image1, (5,7),0)
+blurred = cv2.GaussianBlur(image1, (7,7),0)
 blurred = cv2.medianBlur(blurred,1)
 #THRESHOLD--------------------------------------------------------------------------------------------------------------
 v = np.mean(blurred)
-sigma=0.1
-lower = (int(max(0, (2.0 - sigma) * v)))
-upper = (int(min(255, (2.0 + sigma) * v)))
+sigma=0.33
+lower = (int(max(0, (1.0 - sigma) * v)))
+upper = (int(min(255, (1.0 + sigma) * v)))
 #EDGE DETECTION---------------------------------------------------------------------------------------------------------
 edged = cv2.Canny(blurred, lower, upper)
-(cnts, _) = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+(cnts, _) = cv2.findContours(edged.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
 cnts = sorted([(c, cv2.boundingRect(c)[0]) for c in cnts], key = lambda x: x[1])
 yf=rois
 vec=[]
@@ -84,7 +97,7 @@ contador2=1
 consumo=0
 for (c,_) in cnts:
     (x, y, w, h) = cv2.boundingRect(c)
-    if w > 10 and h > 10 and w<50:
+    if w > 11 and h > 13 and w<100:
       if(x-xfx)>10:
         if contador2<6:
                 xfx=x+w
@@ -97,25 +110,12 @@ for (c,_) in cnts:
                 retval, results, neigh_resp, dists = model.find_nearest(roi_small, k = 1)
                 string = str(int((results[0][0])))
                 cv2.putText(image, str(string), (x - 10, y - 10),cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 2)
-                cv2.imshow("final",image)
+                cv2.imshow("MEDIDOR ELECTRICO",image)
                 cv2.waitKey(0)
 #CONCATENATE NUMBERS----------------------------------------------------------------------------------------------------
                 digito=support_library.concatenar(results,contador,digito)
                 consumo=int(consumo)+int(digito)
                 contador2=contador2+1
                 contador-=1
+#NUMBER DETECTED--------------------------------------------------------------------------------------------------------
 print 'El numero facturado es:',consumo
-fecha_captura = time.strftime("%d/%m/%y")
-hora_captura = time.strftime("%H:%M:%S")
-print 'La fecha:',fecha_captura,'y hora:',hora_captura
-cv2.waitKey(0)
-#SENDING DATA OBTAINED THE DATABASE-------------------------------------------------------------------------------------
-#bd = MySQLdb.connect(DB_HOST,DB_USER, DB_PASS, DB_NAME)
-#cursor = bd.cursor()
-#try:
-#    cursor.execute("INSERT INTO detect_numbers (consumo,fecha,hora) VALUES (%s,%s, %s)", (consumo,fecha_captura, hora_captura))
-#    bd.commit()
-#    cursor.close()
-#except:
-#    bd.rollback()
-#bd.close()

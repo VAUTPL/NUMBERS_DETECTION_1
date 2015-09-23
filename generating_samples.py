@@ -11,66 +11,75 @@ import cv2
 import numpy as np
 import mahotas
 xi=90
-contador=31
-rois=115
+contador=1
+rois=100
 cont=1
-#CONVERTING THE IMAGE TO GRAYSCALE--------------------------------------------------------------------------------------
-for cont in range(1,11,1):
+#LOAING IMAGE-----------------------------------------------------------------------------------------------------------
+for cont in range(1,23,1):
     xf=1
     xfx=xf
     image = cv2.imread('images/'+'img'+str(cont)+'.jpg')
     image = cv2.resize(image, (800, 500))
+    cv2.imshow("imagen original",image)
     gris = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    cv2.imshow("Imagen original", image)
-    cv2.waitKey(0)
-    gray = gris.copy()
-    #CONTRAST LEVELING------------------------------------------------------------------------------------------------------
-    clahe = cv2 . createCLAHE(clipLimit=2.0)
-    gray = clahe . apply(gray)
-    gray1=gray.copy()
-    umbral=mahotas.thresholding.otsu(gris)
-    gray1[gray1 > umbral] = 255
-    gray1[gray1 < umbral] = 0
-    #REGION OF INTEREST-----------------------------------------------------------------------------------------------------
+    mascar=np.zeros(image.shape[:2], dtype="uint8")
+    cv2.rectangle(mascar, (xf, rois), (xf+800, rois+90), 255, -1)
+    image2=cv2.bitwise_and(gris,gris,mask=mascar)
+    T3=mahotas.thresholding.otsu(image2)
+    gris_copy=gris.copy()
+    gris_2=gris.copy()
+#NEGATIVE IMAGE---------------------------------------------------------------------------------------------------------
+    for j in range(1,800,1):
+        for i in range(1,500,1):
+            color=gris[i,j]
+            gris[i,j]=255-color
+    gris=cv2.GaussianBlur(gris, (3, 3),0)
+    T1=mahotas.thresholding.otsu(gris)
+    clahe = cv2. createCLAHE(clipLimit=1.0)
+    grises= clahe . apply(gris)
+    conteo=1
+    T2 = mahotas.thresholding.otsu(grises)
+    T=(T2+T1+5)/2
+#THRESHOLD--------------------------------------------------------------------------------------------------------------
+    for k in range(rois,rois+90,1):
+        for z in range(xf,800,1):
+            color=grises[k,z]
+            if color>T:
+                grises[k,z]=0
+            else:
+                grises[k,z]=255
+#MASCARA FOR ROI--------------------------------------------------------------------------------------------------------
     mascara=np.zeros(image.shape[:2], dtype="uint8")
-    cv2.rectangle(mascara, (xf, rois), (xf+800, rois+70), 255, -1)
-    image1=cv2.bitwise_and(gray1,gray1,mask=mascara)
-    cv2.imshow("Recorte", image1)
-    #FILTER-----------------------------------------------------------------------------------------------------------------
-    blurred = cv2.GaussianBlur(image1, (5,7),0)
+    cv2.rectangle(mascara, (xf, rois), (xf+800, rois+90), 255, -1)
+    image1=cv2.bitwise_and(grises,grises,mask=mascara)
+#FILTER-----------------------------------------------------------------------------------------------------------------
+    blurred = cv2.GaussianBlur(image1, (7,7),0)
     blurred = cv2.medianBlur(blurred,1)
-    cv2.imshow("filtro",blurred)
-    #THRESHOLD--------------------------------------------------------------------------------------------------------------
+#THRESHOLD FOR DETECTION OF EDGES--------------------------------------------------------------------------------------------------------------
     v = np.mean(blurred)
-    sigma=0.1
-    lower = (int(max(0, (2.0 - sigma) * v)))
-    upper = (int(min(255, (2.0 + sigma) * v)))
-    cv2.waitKey(0)
-    #EDGE DETECTION---------------------------------------------------------------------------------------------------------
+    sigma=0.33
+    lower = (int(max(0, (1.0 - sigma) * v)))
+    upper = (int(min(255, (1.0 + sigma) * v)))
+#EDGE DETECTION---------------------------------------------------------------------------------------------------------
     edged = cv2.Canny(blurred, lower, upper)
-    cv2.imshow("blurred2",edged)
-    cv2.waitKey(0)
-    (cnts, _) = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    (cnts, _) = cv2.findContours(edged.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
     cnts = sorted([(c, cv2.boundingRect(c)[0]) for c in cnts], key = lambda x: x[1])
     yf=rois
     vec=[]
     contador2=1
-    #EDGE RECOGNITION-------------------------------------------------------------------------------------------------------
-    numero=0
+#EDGE RECOGNITION-------------------------------------------------------------------------------------------------------
+    consumo=0
     for (c,_) in cnts:
         (x, y, w, h) = cv2.boundingRect(c)
-        i=1
-        q=800
-        if w > 10 and h > 10 and w<50:
+        if w > 11 and h > 14 and w<100:
           if(x-xfx)>10:
             if contador2<6:
-                xfx=x+w
-                yf=y
-                roi = image[y:y + h, x:x + w]
-                guardar=roi.copy()
-                cv2.imshow("roi",roi)
-                cv2.imwrite(("samples/"+str(contador)+'.png'),guardar)
-                contador2+=1
-                contador+=1
-                cv2.waitKey(0)
+                    xfx=x+w
+                    yf=y
+                    roi=gris[y:y+h,x:x+w]
+                    guardar=roi.copy()
+                    cv2.imshow("roi",roi)
+                    cv2.imwrite(("samples/"+str(contador)+'.png'),guardar)
+                    contador2+=1
+                    contador+=1
 
