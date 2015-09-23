@@ -53,12 +53,13 @@ You can detect with detect_numbers_image.py It serves to detect the number of me
 
 `$ python detect_numbers_image.py  `
 
-You will then be asked which is the name of the image to be processed, place the name based on images found in the images folder. Example: img1
+You will then be asked which is the name of the image to be processed, place the name based on images found in the images folder. Example: INGRESE EL NOMBRE DE LA IMAGEN:img1
 
 It serves to detect the number of meters of web cam
 
 `$ python detect_numbers_video.py `
 
-As in the previous program you must enter the name of the video processing of the case, otherwise you should write camera to use the webcam.
-
+As in the previous program you must enter the name of the video processing of the case, otherwise you should write camara to use the webcam or video2 for use the video load.
+Example: INGRESE EL NOMBRE DEL VIDEO O CAMARA PARA TOMAR FOTO: video2 or INGRESE EL NOMBRE DEL VIDEO O CAMARA PARA TOMAR FOTO: camara.
 A box where you will take the first picture (press 'c' to take photo) and analyze.
+Suggestion: When taking the photo, preferably position the region of interest as a possible left, in order to avoid delays.
